@@ -1,4 +1,8 @@
-<div *ngFor="let i of (products|async)">
-  <img [src]=i.imgUrl>
-  <span>{{i.name}}</span>
-</div>
+<mat-card class="card" *ngFor="let i of products|async">
+  <mat-card-header>
+    <mat-card-title>{{i.name}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <img mat-card-image [src]=i.imgUrl [alt]=i.name>
+  </mat-card-content>
+</mat-card>
