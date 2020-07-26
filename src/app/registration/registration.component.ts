@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { AuthService } from '../service/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pm-registration',
@@ -8,7 +10,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 })
 export class RegistrationComponent implements OnInit {
 register: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.register = this.fb.group({
@@ -30,7 +32,11 @@ register: FormGroup;
     if(this.register.invalid){
       return;
     }
-    console.log(this.register.value);
+    const user = this.register.getRawValue();
+    console.log(user);
+    this.authService.register(user).subscribe(()=>{
+      this.router.navigate(['/']);
+    });
   }
 
 }
