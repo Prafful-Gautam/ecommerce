@@ -30,6 +30,7 @@
     "express-async-handler": "^1.1.4",
     "helmet": "^3.23.3",
     "logger": "0.0.1",
+    "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
