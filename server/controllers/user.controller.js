@@ -1,10 +1,13 @@
-users = [];
- function insert(user) {
-  //make mongoose db call to save user in db
+const User = require('../models/user.model');
+const bcrypt = require('bcrypt');
 
-  users.push(user);
-  console.log('save user in db', users);
-  return users;
+async function insert(user) {
+  user.hashedPassword = bcrypt.hashSync(user.password, 10);
+  delete user.password;
+
+  console.log('saving user to db', user);
+
+  return await new User(user).save();
 }
 
 module.exports = {insert};
