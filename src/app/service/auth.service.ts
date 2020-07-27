@@ -14,8 +14,18 @@ apiUrl = 'http://localhost:4050/api/auth/';
   constructor(private http: HttpClient) { }
   login(email: string, password: string){
     const loginCredentials = {email, password};
-    console.log(loginCredentials);
-    return of(loginCredentials);
+    console.log('login credentials', loginCredentials);
+
+    return this.http.post<User>(`${this.apiUrl}login`, loginCredentials)
+      .pipe(switchMap(foundUser => {
+        this.setUser(foundUser);
+        console.log('user found', foundUser);
+        return of(foundUser);
+      }),
+      catchError(err => {
+        return throwError('Your login details not varified', err);
+      })
+      );
   }
 
   get user(){

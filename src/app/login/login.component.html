@@ -3,11 +3,13 @@
   <mat-form-field>
     <mat-label>Eamil</mat-label>
     <input matInput formControlName="email" email>
+    <mat-error *ngIf="f.email.errors">{{error}}</mat-error>
   </mat-form-field>
   <br>
   <mat-form-field>
     <mat-label>Password</mat-label>
     <input type="password" matInput formControlName="password">
+    <mat-error *ngIf="f.password.errors">{{error}}</mat-error>
   </mat-form-field>
   <br>
   <button type="submit" mat-raised-button color="primary">Login</button>
