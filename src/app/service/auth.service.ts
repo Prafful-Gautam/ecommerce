@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Subject, of, Observable } from 'rxjs';
+import { Subject, of, Observable, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 import { User } from '../user';
+import { switchMap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 private user$ = new Subject<User>();
-  constructor() { }
+apiUrl = 'http://localhost:4050/api/auth/';
+  constructor(private http: HttpClient) { }
   login(email: string, password: string){
     const loginCredentials = {email, password};
     console.log(loginCredentials);
@@ -22,8 +26,17 @@ private user$ = new Subject<User>();
    console.log('User is logout');
  }
   register(user: any){
-    this.setUser(user);
-    return of(user);
+    return this.http.post(`${this.apiUrl}register`, user).pipe(
+      switchMap(savedUser => {
+        this.setUser(savedUser);
+        console.log('user registered successfully', savedUser);
+        return of(savedUser);
+      }),
+      catchError(err => {
+        console.log('server error occured', err);
+        return throwError('Registration falied');
+      })
+    );
   }
 
   private setUser(user){

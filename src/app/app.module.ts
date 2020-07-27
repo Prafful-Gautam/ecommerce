@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ProductService } from './product/product.service';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { RegistrationComponent } from './registration/registration.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
