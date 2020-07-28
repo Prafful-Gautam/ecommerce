@@ -1,9 +1,13 @@
+<mat-grid-list cols="5" rowHeight="500px">
+  <mat-grid-tile *ngFor="let i of products|async">
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>{{i.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img mat-card-image [src]=i.imgUrl [alt]=i.name>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
 
-<mat-card class="card" *ngFor="let i of products|async">
-  <mat-card-header>
-    <mat-card-title>{{i.name}}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <img mat-card-image [src]=i.imgUrl [alt]=i.name>
-  </mat-card-content>
-</mat-card>

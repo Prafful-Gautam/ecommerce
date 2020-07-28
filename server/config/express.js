@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const routes = require('../routes');
+const passport = require('passport');
 
 const app = express();
 //parsing body from api
@@ -30,10 +31,13 @@ app.use(helmet());
 //allow cors
 app.use(cors());
 
+//authenticate
+app.use(passport.initialize());
+
 //api router //localhost:4050/api
 app.use('/api', routes);
 
 //serve the index.html
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../../dist/index.html')));
 
 module.exports = app;
