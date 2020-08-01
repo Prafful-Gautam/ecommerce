@@ -17,7 +17,6 @@ import { MatCardModule } from '@angular/material/card';
     ProductRoutingModule,
     HttpClientModule,
     MatCardModule,
-
     MaterialModule
   ],
   providers: [ProductService]

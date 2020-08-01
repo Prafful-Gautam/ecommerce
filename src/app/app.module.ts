@@ -10,7 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { ProductService } from './product/product.service';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HeaderComponent } from './header/header.component';
+import { HeaderInterceptorService } from './intercepters/header-interceptor.service';
 
 
 @NgModule({
@@ -18,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,9 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,19 +1,2 @@
-<mat-toolbar>
-  <mat-toolbar-row>
-    <span>Product Mart</span>
-    <a mat-button color="accent" routerLink="/home" routerLinkActive="active">Home</a>
-    <a mat-button color="accent" routerLink="/product" routerLinkActive="active">Product</a>
-    <a mat-button color="accent" routerLink="/login" routerLinkActive="active">Login</a>
-    <a mat-button color="accent" routerLink="/register" routerLinkActive="active">Register</a>
-    <a mat-button *ngIf="user" [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
-    {{user.name}}
-    </a>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="logout()">Logout</button>
-    </mat-menu>
-  </mat-toolbar-row>
-
-
-</mat-toolbar>
+<pm-header></pm-header>
 <router-outlet></router-outlet>

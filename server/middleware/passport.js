@@ -8,6 +8,7 @@ const userController = require('../controllers/user.controller');
 
 const localLogin = new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
   const user = await userController.login(email, password);
+  console.log(email, password);
   return user ? done(null, user) : done(null, false, {error: 'Login failed!'});
 })
 
@@ -17,7 +18,8 @@ const jwtLogin = new JwtStrategy(
     secretOrKey: config.jwtSecretKey
   },
   async (payload, done) => {
-    const user = await userController.getUserById(payload._id);
+    const userData = JSON.parse(payload.user)
+    const user = await userController.getUserById(userData._id);
     return user? done(null, user):done(null, false, {
       error: 'Login failed!'
     });

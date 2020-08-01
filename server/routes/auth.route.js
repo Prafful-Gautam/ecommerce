@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('../controllers/user.controller');
 const asyncHandler = require('express-async-handler');
 const authController = require('../controllers/auth.controller');
+const passport = require('../middleware/passport');
 
 const router = express.Router();
 
@@ -9,6 +10,11 @@ const router = express.Router();
 //localhost:4050/api/auth/register
 router.post('/register', asyncHandler(insert), login);
 router.post('/login', asyncHandler(getUserByEmailAndPassword), login);
+router.get("/findme",passport.authenticate("jwt", {session: false}), login);
+
+async function sendBack(req, res) {
+  res.json({user: req.body, token: req.headers.authorization});
+}
 
 async function insert(req, res, next) {
   const user = req.body
@@ -26,10 +32,12 @@ async function getUserByEmailAndPassword(req, res, next){
   next();
 }
 
-function login(req, res) {
+async function login(req, res) {
   const user = req.user;
+  console.log('-------->',req.user)
   const token = authController.generateToken(user);
-  res.json({user, token});
+  const expiresIn = 3600;
+  res.json({user, token, expiresIn});
 }
 
 module.exports = router;

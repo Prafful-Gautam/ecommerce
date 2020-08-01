@@ -4,4 +4,7 @@ export interface User{
   password: string;
   confirmPassword?: string;
   roles?: any[];
+  token?: string;
+  expiresIn?: number;
+  user?: any;
 }

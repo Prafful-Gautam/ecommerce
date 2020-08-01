@@ -12,7 +12,6 @@ async function insert(user) {
 
 async function login(email, password) {
   let user = await User.findOne({email});
-
   if(isUserValid(user, password, user.hashedPassword)){
     user = user.toObject();
     delete user.hashedPassword;
@@ -24,6 +23,7 @@ async function login(email, password) {
 
 async function getUserById(id) {
   let user = await User.findById(id);
+  console.log('------=>',id)
   if(user) {
     user = user.toObject();
     delete user.hashedPassword;
