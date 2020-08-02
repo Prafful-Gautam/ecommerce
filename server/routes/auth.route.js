@@ -9,7 +9,7 @@ const router = express.Router();
 
 //localhost:4050/api/auth/register
 router.post('/register', asyncHandler(insert), login);
-router.post('/login', asyncHandler(getUserByEmailAndPassword), login);
+router.post('/login', passport.authenticate("local", {session: false}), login);
 router.get("/findme",passport.authenticate("jwt", {session: false}), login);
 
 async function sendBack(req, res) {

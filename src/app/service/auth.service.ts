@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../user';
 import { switchMap, catchError } from 'rxjs/operators';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,25 +63,40 @@ get user(){
   }
 
 
-  autoAuthLogin(){
-    const authInformation = this.getAuthData();
-    console.log('authInfor===', authInformation);
-    if(!authInformation){
-      return;
-    }
-    const now = new Date();
-    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-    console.log('expires in', expiresIn);
-    if(expiresIn > 0){
-      this.token = authInformation.token;
-      this.isUserAuth = true;
-      console.log('found user', authInformation);
-      setTimeout(() => {
-        this.logout();
-      }, expiresIn);
-      this.setUser(authInformation.email, authInformation.name);
-      return of(authInformation);
-    }
+  // autoAuthLogin(){
+  //   const authInformation = this.getAuthData();
+  //   console.log('authInfor===', authInformation);
+  //   if(!authInformation){
+  //     return;
+  //   }
+  //   const now = new Date();
+  //   const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+  //   console.log('expires in', expiresIn);
+  //   if(expiresIn > 0){
+  //     this.token = authInformation.token;
+  //     this.isUserAuth = true;
+  //     console.log('found user', authInformation);
+  //     setTimeout(() => {
+  //       this.logout();
+  //     }, expiresIn);
+  //     this.setUser(authInformation.email, authInformation.name);
+  //     return of(authInformation);
+  //   }
+  // }
+
+  autoLogout(){
+  const authInformation = this.getAuthData();
+  if(!authInformation){
+    return;
+  }
+  const now = new Date();
+  const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+  console.log('Logout', expiresIn);
+  if(expiresIn > 0) {
+    setTimeout(() =>{
+      this.logout();
+    }, expiresIn);
+  }
   }
 
  logout(){
