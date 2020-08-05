@@ -1,2 +1,11 @@
-<pm-header></pm-header>
-<router-outlet></router-outlet>
+
+<mat-drawer-container class="example-container">
+  <mat-drawer #sidenav class="example-sidenav" mode="over">
+    <a mat-button routerLink="/product">Product</a>
+  </mat-drawer>
+  <mat-drawer-content>
+    <pm-header [user] = "user" (logoutEvent) = "logout()" (sidenav)="sidenav.toggle()"></pm-header>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+

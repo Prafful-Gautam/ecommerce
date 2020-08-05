@@ -11,14 +11,21 @@ async function insert(user) {
 }
 
 async function login(email, password) {
+
   let user = await User.findOne({email});
-  if(isUserValid(user, password, user.hashedPassword)){
-    user = user.toObject();
-    delete user.hashedPassword;
-    return user;
+  console.log('--->', email, user);
+  if(user){
+    if(isUserValid(user, password, user.hashedPassword)){
+      user = user.toObject();
+      delete user.hashedPassword;
+      return user;
+    } else {
+      return null;
+    }
   } else {
     return null;
   }
+
 }
 
 async function getUserById(id) {

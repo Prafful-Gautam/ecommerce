@@ -9,7 +9,7 @@ const router = express.Router();
 
 //localhost:4050/api/auth/register
 router.post('/register', asyncHandler(insert), login);
-router.post('/login', passport.authenticate("local", {session: false}), login);
+router.post('/login', passport.authenticate("local", {session: false}),login);
 router.get("/findme",passport.authenticate("jwt", {session: false}), login);
 
 async function sendBack(req, res) {
@@ -34,10 +34,16 @@ async function getUserByEmailAndPassword(req, res, next){
 
 async function login(req, res) {
   const user = req.user;
-  console.log('-------->',req.user)
-  const token = authController.generateToken(user);
-  const expiresIn = 3600;
-  res.json({user, token, expiresIn});
+  console.log('--****>',req.user)
+  if(user){
+    const token = authController.generateToken(user);
+    const expiresIn = 3600;
+    res.json({user, token, expiresIn});
+  }else {
+    res.json({message: 'Invalid user credentials'});
+  }
+
+
 }
 
 module.exports = router;

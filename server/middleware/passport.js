@@ -7,9 +7,9 @@ const config = require('../config/config');
 const userController = require('../controllers/user.controller');
 
 const localLogin = new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
+
   const user = await userController.login(email, password);
-  console.log(email, password);
-  return user ? done(null, user) : done(null, false, {error: 'Login failed!'});
+  return user ? done(null, user) : done(null,false, {error: 'Login failed!'});
 })
 
 const jwtLogin = new JwtStrategy(

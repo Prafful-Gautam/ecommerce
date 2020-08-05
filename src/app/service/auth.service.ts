@@ -10,7 +10,7 @@ import { switchMap, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-user$ = new Subject<{email: string, name: string}>();
+user$ = new Subject<{email: string, name: string, status: boolean}>();
 private token: string;
 tokenTimeout: any;
 foundUser: User;
@@ -47,7 +47,7 @@ get user(){
           }, expiresIn * 1000);
           console.log('=======>', foundUser);
           this.foundUser = foundUser;
-          this.setUser(foundUser.user.email, foundUser.user.name);
+          this.setUser(foundUser.user.email, foundUser.user.name, true);
           this.isUserAuth = true;
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresIn * 1000);
@@ -56,9 +56,7 @@ get user(){
         }
         return of(foundUser);
       }),
-      catchError(err => {
-        return throwError('Your login details not varified', err);
-      })
+
       );
   }
 
@@ -101,7 +99,7 @@ get user(){
 
  logout(){
    this.token = null;
-   this.setUser(null, null);
+   this.setUser(null, null, false);
    this.isUserAuth = false;
    this.clearAuthData();
    console.log('User is logout');
@@ -138,7 +136,7 @@ get user(){
  register(user: any){
     return this.http.post<any>(`${this.apiUrl}register`, user).pipe(
       switchMap(savedUser => {
-        this.setUser(savedUser.email, savedUser.name);
+        this.setUser(savedUser.email, savedUser.name, true);
         console.log('user registered successfully', savedUser);
         return of(savedUser);
       }),
@@ -157,8 +155,9 @@ get user(){
   return this.http.get<any>(`${this.apiUrl}findme`).pipe(
     switchMap(foundUser => {
       console.log(`User found!`, foundUser);
-      this.setUser(foundUser.email, foundUser.name);
-      return of(foundUser.user);
+      this.setUser(foundUser.email, foundUser.name, true);
+      const userFound = {email: foundUser.user.email, name: foundUser.user.name, status: true};
+      return of(userFound);
     }),
     catchError(err => {
       console.log('Your details not varified', err);
@@ -168,8 +167,8 @@ get user(){
     );
  }
 
- private setUser(email: string, name: string){
-  const user = { email: email, name: name };
+ private setUser(email: string, name: string, status: boolean){
+  const user = { email: email, name: name, status: status };
   console.log('user---------', user);
   this.user$.next(user);
 }
