@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Output() logoutEvent = new EventEmitter<any>();
 
-  constructor(private authService: AuthService, private router: Router) {console.log(this.user)}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(){
 
