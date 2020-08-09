@@ -19,6 +19,6 @@ import { MatCardModule } from '@angular/material/card';
     MatCardModule,
     MaterialModule
   ],
-  providers: [ProductService]
+  providers: []
 })
 export class ProductModule { }

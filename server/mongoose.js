@@ -6,7 +6,7 @@ const config = require('./config/config');
 const mongoUri = config.mongo.uri;
 
 const db = mongoose.connect(mongoUri, {keepAlive: true, useNewUrlParser: true, useUnifiedTopology: true})
-  .then(() => {console.log('connected to db: ', mongoUri)},
+  .then(() => {console.log('connected to mongoDb')},
     (err) => {console.log('Connection failed to db', err)}
     )
 

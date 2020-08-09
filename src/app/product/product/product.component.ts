@@ -4,6 +4,9 @@ import { Observable, Subscription } from 'rxjs';
 import {ProductType} from '../product';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { Store } from '@ngrx/store';
+import { CartItem } from 'src/app/core/cart/cart-item';
+import { AddToCart, RemoveFromCart } from 'src/app/core/store/actions';
 
 @Component({
   selector: 'pm-product',
@@ -16,8 +19,8 @@ export class ProductComponent implements OnInit {
 displayedColumns: string[] = ['imgUrl', 'name', 'price', 'cart'];
 products: ProductType[] = [];
 dataSource = new MatTableDataSource<ProductType>();
-// products: any[] = [];
-  constructor(private productService: ProductService) { }
+inCart = false;
+  constructor(private productService: ProductService, private store: Store <{shop: [], cart: [], item: []}>) { }
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe(res => {
@@ -36,7 +39,15 @@ dataSource = new MatTableDataSource<ProductType>();
   // }
 
 }
+addToCart(item: CartItem) {
+  this.store.dispatch(new AddToCart(item));
+  this.inCart = true;
+}
 
+removeFromCart(item: CartItem) {
+  this.store.dispatch(new RemoveFromCart(item));
+  this.inCart = false;
+}
 
 
 }

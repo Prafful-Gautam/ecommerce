@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { AuthGuard } from './auth/auth.guard';
 
 
 const routes: Routes = [
@@ -16,12 +17,14 @@ const routes: Routes = [
   {
     path: 'product',
     pathMatch: 'full',
-    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
+    loadChildren: () => import('./product/product.module').then(m => m.ProductModule),
+    canActivate: [AuthGuard]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

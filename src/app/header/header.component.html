@@ -19,11 +19,44 @@
       <button mat-menu-item (click)="logoutEvent.emit()">Logout</button>
     </mat-menu>
 
+    <span *ngIf="cart.length" matBadge={{cart.length}} matBadgeOverlap="true">
+      <button mat-button [matMenuTriggerFor]="cartMenu">
+       <mat-icon>shopping_cart</mat-icon>
+    </button>
+    </span>
+    <mat-menu #cartMenu class="cartMenu">
+      <mat-list role="list">
+        <mat-list-item role="list-item" *ngFor="let c of myCart">
+          <span matBadge={{c.count}} matBadgeOverlap="false">
+              <table>
+                <tr>
+                  <td class="name">
+                  <span>{{c.value.name}}</span>
+                    </td>
+                    <td class="price">
+                  <span>{{c.value.price}}</span>
+                    </td>
+                  </tr>
+                </table>
+
+          </span>
+
+        </mat-list-item>
+        <mat-list-item>
+          <span>
+            <b>Total</b>
+          </span>
+          <span class="header-space"></span>
+          <span>
+            <b>{{total}}</b>
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </mat-menu>
   </mat-toolbar-row>
 
 
 </mat-toolbar>
-{{user | json}}
 <mat-drawer-container class="example-container">
   <mat-drawer #sidenav class="example-sidenav" mode="over">
     <a mat-button routerLink="/product">Product</a>

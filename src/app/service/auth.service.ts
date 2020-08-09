@@ -157,6 +157,7 @@ get user(){
       console.log(`User found!`, foundUser);
       this.setUser(foundUser.email, foundUser.name, true);
       const userFound = {email: foundUser.user.email, name: foundUser.user.name, status: true};
+      this.isUserAuth = true;
       return of(userFound);
     }),
     catchError(err => {

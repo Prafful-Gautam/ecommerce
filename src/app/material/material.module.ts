@@ -9,6 +9,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTableModule} from '@angular/material/table';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatListModule} from '@angular/material/list';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import {MatTableModule} from '@angular/material/table';
     MatMenuModule,
     MatSidenavModule,
     MatTableModule,
+    MatBadgeModule,
+    MatListModule,
     ],
   exports: [
     CommonModule,
@@ -35,6 +39,8 @@ import {MatTableModule} from '@angular/material/table';
     MatGridListModule,
     MatSidenavModule,
     MatTableModule,
+    MatBadgeModule,
+    MatListModule,
   ]
 })
 export class MaterialModule { }

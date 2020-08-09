@@ -12,6 +12,11 @@ import { RegistrationComponent } from './registration/registration.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { HeaderInterceptorService } from './intercepters/header-interceptor.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { ShopReducer } from './core/store/reducer';
+import { ShopEffects } from './core/store/effects';
+import { ProductService } from './product/product.service';
 
 
 @NgModule({
@@ -29,9 +34,12 @@ import { HeaderInterceptorService } from './intercepters/header-interceptor.serv
     ReactiveFormsModule,
     MaterialModule,
     HttpClientModule,
+    StoreModule.forRoot({ shop: ShopReducer }),
+    EffectsModule.forRoot([ShopEffects])
 
   ],
   providers: [
+    ProductService,
     {provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
