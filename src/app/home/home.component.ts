@@ -16,7 +16,9 @@ export interface SelectProduct{
 })
 export class HomeComponent implements OnInit, OnDestroy {
 prodObs: Observable<ProductType>;
+fruitObs: Observable<ProductType>;
 products: ProductType[] = [];
+fruits: ProductType[] = [];
 selectProduct = '1st product';
   constructor(private productService: ProductService, private dialog: MatDialog) { }
 
@@ -24,6 +26,12 @@ selectProduct = '1st product';
     this.prodObs = this.productService.getProducts();
     this.prodObs.subscribe( res => {
       this.products.push(res);
+    });
+
+    this.fruitObs = this.productService.getFruits();
+    this.fruitObs.subscribe(res => {
+      this.fruits.push(res);
+      console.log('fruit--', this.fruits);
     });
   }
 
@@ -33,8 +41,12 @@ selectProduct = '1st product';
     this.dialog.open(ViewComponent, {
       data: {product: this.products[0][i]}
     });
+  }
 
-
+  openDialog2(i: number): void {
+    this.dialog.open(ViewComponent, {
+      data: {product: this.fruits[0][i]}
+    });
   }
   ngOnDestroy(): void {
 

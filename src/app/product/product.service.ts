@@ -13,4 +13,9 @@ export class ProductService {
       return res.arrayOfProducts;
     }));
   }
+  getFruits(){
+    return this.http.get<{fruits}>('fruits.json').pipe(map(res =>{
+      return res.fruits;
+    }));
+  }
 }

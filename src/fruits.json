@@ -1,0 +1,34 @@
+{
+  "fruits":[
+    {
+			"imgUrl": "assets/images/apple-item.png",
+			"name": "Apple",
+			"price": 120
+    },
+    {
+			"imgUrl": "assets/images/banana.jpeg",
+			"name": "Banana",
+			"price": 60
+    },
+    {
+			"imgUrl": "assets/images/berries.jpeg",
+			"name": "Berries",
+			"price": 100
+    },
+    {
+			"imgUrl": "assets/images/lemons.jpeg",
+			"name": "Lemons",
+			"price": 50
+    },
+    {
+			"imgUrl": "assets/images/oranges.jpeg",
+			"name": "Orranges",
+			"price": 90
+    },
+    {
+			"imgUrl": "assets/images/unknown.jpeg",
+			"name": "Shariffa",
+			"price": 150
+		}
+  ]
+}

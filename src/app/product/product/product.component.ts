@@ -18,17 +18,22 @@ export class ProductComponent implements OnInit {
 @ViewChild(MatSort) sort: MatSort;
 displayedColumns: string[] = ['imgUrl', 'name', 'price', 'cart'];
 products: ProductType[] = [];
+fruits: ProductType[] = [];
 dataSource = new MatTableDataSource<ProductType>();
+fruitSource = new MatTableDataSource<ProductType>();
 inCart = false;
   constructor(private productService: ProductService, private store: Store <{shop: [], cart: [], item: []}>) { }
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe(res => {
       this.products.push(res);
-      //this.onDataLoad(this.products);
-     // console.log(this.products);
       this.dataSource.data = res;
       this.dataSource.sort = this.sort;
+    });
+
+    this.productService.getFruits().subscribe(res => {
+      this.fruits.push(res);
+      this.fruitSource.data = res;
     });
   //   this.productSub = this.productService.getProducts().subscribe(res => {
   //    for(let i=0; i< res.length; i++) {

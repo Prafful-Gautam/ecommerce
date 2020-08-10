@@ -52,6 +52,11 @@
           <span>
             <b>Rs. {{total}}</b>
           </span>
+
+
+        </mat-list-item>
+        <mat-list-item>
+          <button mat-raised-button color="primary">Buy Now</button>
         </mat-list-item>
       </mat-list>
     </mat-menu>
@@ -61,7 +66,16 @@
 </mat-toolbar>
 <mat-drawer-container class="example-container">
   <mat-drawer #sidenav class="example-sidenav" mode="over">
-    <a mat-button routerLink="/product">Product</a>
+    <mat-list>
+      <mat-list-item>
+        <a mat-button routerLink="/home">Home</a>
+      </mat-list-item>
+    <mat-list-item>
+      <a mat-button routerLink="/product">Product</a>
+    </mat-list-item>
+    </mat-list>
+
+
   </mat-drawer>
   <mat-drawer-content>
 
