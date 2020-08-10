@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'pm-registration',
@@ -10,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 register: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private authService: AuthService,
+              private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.register = this.fb.group({
@@ -27,7 +29,9 @@ register: FormGroup;
   get f(){
     return this.register.controls;
   }
-
+openSnackBar(message: string, action: string){
+  this.snackBar.open(message, action, {duration: 2000});
+}
   onSubmit(){
     if(this.register.invalid){
       return;
@@ -36,6 +40,9 @@ register: FormGroup;
     console.log(user);
     this.authService.register(user).subscribe(()=>{
       this.router.navigate(['/']);
+    },
+    err => {
+      this.openSnackBar(err.statusText, 'close');
     });
   }
 

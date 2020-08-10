@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../service/auth.service';
+import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'pm-login',
@@ -12,9 +13,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
 error: BehaviorSubject<string>;
+err = {msg:'', status: false};
 login: FormGroup;
 submit = false;
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private authService: AuthService,
+              private router: Router, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.error = new BehaviorSubject('');
@@ -22,6 +25,9 @@ submit = false;
       email: ['', Validators.required],
       password: ['', Validators.required]
     })
+  }
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, { duration: 2000});
   }
   get f(){
     return this.login.controls;
@@ -38,7 +44,12 @@ onSubmit() {
   this.setError('');
   const user = this.login.value;
   this.authService.login(user.email, user.password).subscribe((res) => this.router.navigate(['/']),
-  err => {this.setError(err.error); this.submit = true;}
+  err => {this.setError(err.error);
+          this.submit = true;
+          console.log(this.error);
+          this.err = {msg:'This Email is not registered or Invalid Password', status: true};
+          this.openSnackBar(this.err.msg, 'close');
+    }
   );
 }
 }

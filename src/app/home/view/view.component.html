@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <span>{{data.product.name}}  </span>
+      <span class="header-space"></span>
+      <span>Rs. {{data.product.price}}</span>
+
+      </mat-card-title>
+
+  </mat-card-header>
+  <mat-card-content>
+    <img [src]=data.product.imgUrl width="50%">
+
+  </mat-card-content>
+</mat-card>
+
+<button mat-button mat-dialog-close>Close</button>

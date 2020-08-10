@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegistrationComponent } from './registration/registration.component';
+
 import { AuthGuard } from './auth/auth.guard';
 
 
@@ -12,8 +11,10 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegistrationComponent},
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth/auth.module').then(m => m.AuthModule)
+  },
   {
     path: 'product',
     pathMatch: 'full',

@@ -10,7 +10,7 @@
 
     <span class="header-space"></span>
 
-    <a mat-button color="accent" *ngIf="!user.status" routerLink="/login" routerLinkActive="active">Login</a>
+    <a mat-button color="accent" *ngIf="!user.status" routerLink="/auth/login" routerLinkActive="active">Login</a>
     <a mat-button *ngIf="user" [matMenuTriggerFor]="menu">
     <mat-icon>account_circle</mat-icon>
     {{user.name}}
@@ -31,10 +31,12 @@
               <table>
                 <tr>
                   <td class="name">
-                  <span>{{c.value.name}}</span>
+                    <img [src]=c.value.imgUrl alt=c.value.name width=50 height=50>
+
                     </td>
+
                     <td class="price">
-                  <span>{{c.value.price}}</span>
+                  <span>Rs. {{c.value.price}}</span>
                     </td>
                   </tr>
                 </table>
@@ -48,7 +50,7 @@
           </span>
           <span class="header-space"></span>
           <span>
-            <b>{{total}}</b>
+            <b>Rs. {{total}}</b>
           </span>
         </mat-list-item>
       </mat-list>

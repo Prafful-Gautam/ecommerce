@@ -1,1 +1,19 @@
-<p>home works!</p>
+<mat-grid-list list cols="3" rowHeight="2:1">
+
+<mat-grid-tile *ngFor="let p of (prodObs | async); let i=index"
+ style="background:url({{p.imgUrl}}); background-size: contain" (click)="openDialog(i)">
+  <mat-grid-tile-header color="primary">{{p.name}}
+    <span class="header-space"></span>
+     <span><b>Rs. {{p.price}}</b></span>
+    </mat-grid-tile-header>
+    <!-- <a (click)="openDialog(i)">
+    <img [src]=p.imgUrl width="fit-content" height="fit-content">
+    </a> -->
+   <mat-grid-tile-footer>
+
+   </mat-grid-tile-footer>
+</mat-grid-tile>
+</mat-grid-list>
+
+
+

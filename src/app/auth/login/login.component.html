@@ -1,0 +1,21 @@
+  <mat-card>
+<form [formGroup]="login" (ngSubmit)="onSubmit()">
+  <div style="margin: 20%"></div>
+  <mat-form-field>
+    <mat-label>Eamil</mat-label>
+    <input matInput formControlName="email" email>
+    <mat-error *ngIf="submit">Invalid email or Password</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input type="password" matInput formControlName="password">
+    <mat-error *ngIf="submit">{{error|async}}</mat-error>
+    <mat-error *ngIf="submit">Invalid Email or Password {{error|async}}</mat-error>
+  </mat-form-field>
+  <br>
+  <button type="submit" mat-raised-button color="primary">Login</button>
+  <a mat-button color="accent" routerLink="/auth/register" routerLinkActive="active">Register</a>
+</form>
+</mat-card>
+
