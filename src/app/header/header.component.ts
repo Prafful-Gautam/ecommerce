@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CartItem } from '../core/cart/cart-item';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 interface MyCart {
   value: CartItem;
@@ -22,26 +23,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   cartObservable: Observable<any>;
   constructor(private authService: AuthService, private router: Router,
-              private store: Store<{shop: [], item: [], cart: CartItem[]}>) {
-                this.cartObservable = store.pipe(select('shop'));
-                this.cartObservable.subscribe(data => {
-                  this.cart = data.cart;
-                  //this.uniqueField();
-                  this.myCart = this.compressArray(this.cart);
-                  console.log('.........>',this.myCart)
-                  this.total = 0;
-                  for(let i=0; i<this.myCart.length; i++){
-                    let itemTotal = null;
-                    itemTotal = this.myCart[i].value.price * this.myCart[i].count;
-                    this.total = this.total + itemTotal;
-                  }
-                  console.log('total-->',this.total);
-                });
-              }
+    public dialog: MatDialog,
+    private store: Store<{ shop: [], item: [], cart: CartItem[] }>) {
+    this.cartObservable = store.pipe(select('shop'));
+    this.cartObservable.subscribe(data => {
+      this.cart = data.cart;
+      //this.uniqueField();
+      this.myCart = this.compressArray(this.cart);
+      console.log('.........>', this.myCart)
+      this.total = 0;
+      for (let i = 0; i < this.myCart.length; i++) {
+        let itemTotal = null;
+        itemTotal = this.myCart[i].value.price * this.myCart[i].count;
+        this.total = this.total + itemTotal;
+      }
+      console.log('total-->', this.total);
+    });
+  }
   cart: CartItem[] = [];
   myCart: MyCart[] = [];
   total: number;
-  ngOnInit(){
+  ngOnInit() {
 
   }
 
@@ -49,6 +51,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.myCart = this.cart.reduce((uniques, item) => uniques.includes(item) ? uniques : [...uniques, item], []);
     //console.log('------------>', this.myCart);
 
+  }
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogMessage);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
   compressArray(original) {
 
@@ -71,7 +80,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
 
       if (myCount > 0) {
-        let a = {value: '', count: null};
+        let a = { value: '', count: null };
         a.value = original[i];
         a.count = myCount;
         compressed.push(a);
@@ -91,4 +100,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   }
 
+}
+
+@Component({
+  selector: 'dialog-message',
+  templateUrl: 'dialog-message.html',
+})
+export class DialogMessage {
 }

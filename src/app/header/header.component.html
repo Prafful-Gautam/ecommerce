@@ -12,8 +12,8 @@
 
     <a mat-button color="accent" *ngIf="!user.status" routerLink="/auth/login" routerLinkActive="active">Login</a>
     <a mat-button *ngIf="user" [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
-    {{user.name}}
+      <mat-icon>account_circle</mat-icon>
+      {{user.name}}
     </a>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="logoutEvent.emit()">Logout</button>
@@ -21,25 +21,25 @@
 
     <span *ngIf="cart.length" matBadge={{cart.length}} matBadgeOverlap="true">
       <button mat-button [matMenuTriggerFor]="cartMenu">
-       <mat-icon>shopping_cart</mat-icon>
-    </button>
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
     </span>
     <mat-menu #cartMenu class="cartMenu">
       <mat-list role="list">
         <mat-list-item role="list-item" *ngFor="let c of myCart">
           <span matBadge={{c.count}} matBadgeOverlap="false">
-              <table>
-                <tr>
-                  <td class="name">
-                    <img [src]=c.value.imgUrl alt=c.value.name width=50 height=50>
+            <table>
+              <tr>
+                <td class="name">
+                  <img [src]=c.value.imgUrl alt=c.value.name width=50 height=50>
 
-                    </td>
+                </td>
 
-                    <td class="price">
+                <td class="price">
                   <span>Rs. {{c.value.price}}</span>
-                    </td>
-                  </tr>
-                </table>
+                </td>
+              </tr>
+            </table>
 
           </span>
 
@@ -56,7 +56,7 @@
 
         </mat-list-item>
         <mat-list-item>
-          <button mat-raised-button color="primary">Buy Now</button>
+          <button mat-raised-button color="primary" (click)="openDialog()">Buy Now</button>
         </mat-list-item>
       </mat-list>
     </mat-menu>
@@ -70,9 +70,9 @@
       <mat-list-item>
         <a mat-button routerLink="/home">Home</a>
       </mat-list-item>
-    <mat-list-item>
-      <a mat-button routerLink="/product">Product</a>
-    </mat-list-item>
+      <mat-list-item>
+        <a mat-button routerLink="/product">Product</a>
+      </mat-list-item>
     </mat-list>
 
 
@@ -82,4 +82,3 @@
     <router-outlet></router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>
-
