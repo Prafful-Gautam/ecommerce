@@ -15,10 +15,11 @@ import { UserModule } from '../user/user.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
+        const expiresIn = config.get<string>('JWT_EXPIRES_IN');
         return {
           secret: config.get<string>('JWT_SECRET') ?? 'your_jwt_secret',
           signOptions: {
-            expiresIn: Number(config.get<string>('JWT_EXPIRES_IN')) ?? 60,
+            expiresIn: expiresIn ? Number(expiresIn) : '1h',
           },
         };
       },

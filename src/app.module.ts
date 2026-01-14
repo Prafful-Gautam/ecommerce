@@ -9,6 +9,8 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { ValidationPipe } from './common/validation/validation.pipe';
+import { AdminModule } from './admin/admin.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { ValidationPipe } from './common/validation/validation.pipe';
     }),
     AuthModule,
     UserModule,
+    AdminModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

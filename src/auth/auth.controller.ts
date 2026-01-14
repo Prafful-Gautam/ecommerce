@@ -12,6 +12,7 @@ export class AuthController {
   @Post('login')
   async login(@Request() req: any) {
     // req.user is populated by LocalStrategy
+    console.log(req.user);
     return this.authService.login(req.user);
   }
 

@@ -3,4 +3,10 @@ export class CreateUserDto {
   lastName?: string;
   email: string;
   password: string;
+  role?: UserRole;
+}
+
+export enum UserRole {
+  ADMIN = 'admin',
+  CUSTOMER = 'customer',
 }

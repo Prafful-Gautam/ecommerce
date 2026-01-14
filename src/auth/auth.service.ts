@@ -12,8 +12,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userService.findOne(username);
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.userService.findOne(email);
     if (!user) return null;
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -29,12 +29,17 @@ export class AuthService {
     const user = await this.userService.findById(id);
     if (!user) throw new UnauthorizedException();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...result } = user as any;
+    const { password, ...result } = user as any;
+    console.log({ result });
     return result;
   }
 
   async login(user: any) {
-    const payload: JwtPayload = { username: user.username, sub: user.id };
+    const payload: JwtPayload = {
+      email: user.email,
+      id: user.id,
+      role: user.role,
+    };
     return {
       access_token: this.jwtService.sign(payload),
     };

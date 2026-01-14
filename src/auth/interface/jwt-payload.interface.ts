@@ -1,6 +1,7 @@
+import { UserRole } from 'src/user/dto/create-user.dto';
+
 export interface JwtPayload {
-  username: string;
-  sub: number | string;
-  iat?: number;
-  exp?: number;
+  email: string;
+  role: UserRole;
+  id: number;
 }
