@@ -1,98 +1,511 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# E-Commerce API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust NestJS-based e-commerce backend API with authentication, product management, shopping cart, and order processing capabilities.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Technology Stack
 
-## Description
+- **Framework**: NestJS 11.x
+- **Language**: TypeScript
+- **Database**: MySQL (via TypeORM)
+- **Authentication**: JWT (Passport.js)
+- **Security**: Helmet, bcryptjs, Rate Limiting (Throttler)
+- **Validation**: class-validator, class-transformer
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📁 Project Structure
 
-## Project setup
-
-```bash
-$ npm install
+```
+ecommerce/
+├── src/
+│   ├── admin/                    # Admin module
+│   │   ├── admin.controller.ts   # Admin endpoints
+│   │   ├── admin.service.ts      # Admin business logic
+│   │   └── admin.module.ts       # Admin module definition
+│   │
+│   ├── auth/                     # Authentication module
+│   │   ├── auth.controller.ts    # Auth endpoints (login, register, profile)
+│   │   ├── auth.service.ts       # Auth business logic
+│   │   ├── auth.module.ts        # Auth module definition
+│   │   ├── dto/
+│   │   │   └── auth.dto.ts       # Auth DTOs
+│   │   ├── guards/
+│   │   │   └── local-auth.guard.ts # Local auth guard
+│   │   ├── strategies/
+│   │   │   └── local.strategy.ts  # Passport local strategy
+│   │   ├── jwt.strategy.ts       # JWT strategy
+│   │   └── interface/
+│   │       └── jwt-payload.interface.ts
+│   │
+│   ├── user/                     # User module
+│   │   ├── user.entity.ts        # User entity (database model)
+│   │   ├── user.service.ts       # User business logic
+│   │   ├── user.module.ts        # User module definition
+│   │   └── dto/
+│   │       └── create-user.dto.ts # User DTOs and enums
+│   │
+│   ├── product/                  # Product module
+│   │   ├── product.controller.ts # Product endpoints
+│   │   ├── product.service.ts    # Product business logic
+│   │   ├── product.entity.ts     # Product entity
+│   │   ├── product.module.ts     # Product module definition
+│   │   └── interface/
+│   │       └── product.dto.ts    # Product DTOs and interfaces
+│   │
+│   ├── cart/                     # Shopping cart module
+│   │   ├── cart.controller.ts    # Cart endpoints
+│   │   ├── cart.service.ts       # Cart business logic
+│   │   ├── cart-item.entity.ts   # Cart item entity
+│   │   ├── cart.module.ts        # Cart module definition
+│   │   └── dto/
+│   │       └── cart.dto.ts       # Cart DTOs
+│   │
+│   ├── order/                     # Order module
+│   │   ├── order.controller.ts   # Order endpoints
+│   │   ├── order.service.ts      # Order business logic
+│   │   ├── order.entity.ts       # Order entity
+│   │   ├── order-item.entity.ts  # Order item entity
+│   │   ├── order.module.ts       # Order module definition
+│   │   └── dto/
+│   │       └── order.dto.ts      # Order DTOs
+│   │
+│   ├── common/                    # Shared utilities
+│   │   ├── decorator/
+│   │   │   └── custom.decorator.ts # Custom decorators (@CurrentUser, @Roles)
+│   │   ├── filters/
+│   │   │   └── all-exceptions.filter.ts # Global exception filter
+│   │   ├── guards/
+│   │   │   ├── jwt-auth.guard.ts  # JWT authentication guard
+│   │   │   ├── role.guard.ts      # Role-based access control guard
+│   │   │   └── cutoms-throttle.guard.ts # Rate limiting guard
+│   │   └── validation/
+│   │       └── validation.pipe.ts # Global validation pipe
+│   │
+│   ├── config/                    # Configuration
+│   │   └── configuration.ts      # App configuration
+│   │
+│   ├── seed/                      # Database seeding
+│   │   ├── seed.service.ts       # Seed service
+│   │   ├── seed.module.ts        # Seed module
+│   │   ├── dummyproducts.ts      # Dummy product data
+│   │   └── main.ts               # Seed script entry point
+│   │
+│   ├── app.module.ts              # Root module
+│   ├── app.controller.ts          # Root controller
+│   ├── app.service.ts             # Root service
+│   └── main.ts                    # Application entry point
+│
+├── test/                          # E2E tests
+│   └── app.e2e-spec.ts
+│
+├── dist/                          # Compiled JavaScript (generated)
+├── package.json                   # Dependencies and scripts
+├── tsconfig.json                  # TypeScript configuration
+└── README.md                      # This file
 ```
 
-## Compile and run the project
+## 🔄 Data Flow
 
-```bash
-# development
-$ npm run start
+### Authentication Flow
 
-# watch mode
-$ npm run start:dev
+```
+1. User Registration/Login
+   └─> POST /auth/register or /auth/login
+       └─> AuthService validates credentials
+           └─> JWT token generated
+               └─> Token returned to client
 
-# production mode
-$ npm run start:prod
+2. Protected Routes
+   └─> Request with JWT token
+       └─> JwtAuthGuard validates token
+           └─> RolesGuard checks user role
+               └─> Request proceeds to controller
 ```
 
-## Run tests
+### Product Management Flow (Admin)
 
-```bash
-# unit tests
-$ npm run test
+```
+1. Create Product
+   └─> POST /product/create (Admin only)
+       └─> ProductService.addProduct()
+           └─> Validates product name uniqueness
+               └─> Saves to database
 
-# e2e tests
-$ npm run test:e2e
+2. Update Product
+   └─> PUT /product/update/:id (Admin only)
+       └─> ProductService.updateProduct()
+           └─> Updates product in database
 
-# test coverage
-$ npm run test:cov
+3. Get Products
+   └─> GET /product/get (Authenticated)
+       └─> ProductService.getAllActiveProducts()
+           └─> Returns active products for customers
+           └─> Returns all products for admins
+           └─> Supports cursor-based pagination
 ```
 
-## Deployment
+### Shopping Cart Flow (Customer)
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```
+1. Add to Cart
+   └─> POST /cart/add
+       └─> CartService.addToCart()
+           └─> Validates product availability
+           └─> Updates/creates cart item
+           └─> Updates product holdUnit
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+2. Get Cart
+   └─> GET /cart/get
+       └─> CartService.getCart()
+           └─> Returns user's cart items with product details
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+3. Remove from Cart
+   └─> POST /cart/remove-item
+       └─> CartService.removeFromCart()
+           └─> Updates quantity or removes item
+           └─> Updates product holdUnit
+
+4. Clear Cart
+   └─> POST /cart/clear-cart
+       └─> CartService.clearCart()
+           └─> Removes all cart items
+           └─> Resets product holdUnits
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Order Processing Flow (Customer)
 
-## Resources
+```
+1. Create Order
+   └─> POST /order/create
+       └─> OrderService.createOrder()
+           └─> Validates cart items
+           └─> Calculates total amount
+           └─> Creates order with order items
+           └─> Updates product stock (inStock - quantity)
+           └─> Clears user's cart
+           └─> Returns order details
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Database Relationships
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
+User (1) ──< (N) CartItem
+Product (1) ──< (N) CartItem
+User (1) ──< (N) Order
+Order (1) ──< (N) OrderItem
+Product (1) ──< (N) OrderItem
+CartItem (1) ──< (N) OrderItem (optional reference)
+```
 
-## Support
+## 📡 API Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Base URL
 
-## Stay in touch
+```
+http://localhost:3000
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Authentication Endpoints
 
-## License
+| Method | Endpoint         | Description             | Auth Required | Role |
+| ------ | ---------------- | ----------------------- | ------------- | ---- |
+| POST   | `/auth/register` | Register a new customer | ❌            | -    |
+| POST   | `/auth/login`    | Login and get JWT token | ❌            | -    |
+| POST   | `/auth/profile`  | Get user profile        | ✅            | Any  |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Admin Endpoints
+
+| Method | Endpoint          | Description          | Auth Required | Role |
+| ------ | ----------------- | -------------------- | ------------- | ---- |
+| POST   | `/admin/register` | Register a new admin | ❌            | -    |
+
+### Product Endpoints
+
+| Method | Endpoint              | Description              | Auth Required | Role  |
+| ------ | --------------------- | ------------------------ | ------------- | ----- |
+| POST   | `/product/create`     | Create a new product     | ✅            | Admin |
+| PUT    | `/product/update/:id` | Update a product         | ✅            | Admin |
+| GET    | `/product/get`        | Get products (paginated) | ✅            | Any   |
+
+**Query Parameters for GET /product/get:**
+
+- `limit` (optional): Number of products per page (default: 10)
+- `cursor` (optional): Cursor for pagination (product ID)
+
+### Cart Endpoints
+
+| Method | Endpoint            | Description           | Auth Required | Role     |
+| ------ | ------------------- | --------------------- | ------------- | -------- |
+| POST   | `/cart/add`         | Add product to cart   | ✅            | Customer |
+| GET    | `/cart/get`         | Get user's cart items | ✅            | Customer |
+| POST   | `/cart/remove-item` | Remove item from cart | ✅            | Customer |
+| POST   | `/cart/clear-cart`  | Clear entire cart     | ✅            | Customer |
+
+### Order Endpoints
+
+| Method | Endpoint        | Description            | Auth Required | Role     |
+| ------ | --------------- | ---------------------- | ------------- | -------- |
+| POST   | `/order/create` | Create order from cart | ✅            | Customer |
+
+### Root Endpoint
+
+| Method | Endpoint | Description  | Auth Required |
+| ------ | -------- | ------------ | ------------- |
+| GET    | `/`      | Health check | ❌            |
+
+## 🔐 Authentication
+
+The API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header:
+
+```
+Authorization: Bearer <your_jwt_token>
+```
+
+### User Roles
+
+- **ADMIN**: Can manage products and access admin endpoints
+- **CUSTOMER**: Can browse products, manage cart, and create orders
+
+## 🗄️ Database Schema
+
+### User Entity
+
+- `id` (Primary Key)
+- `firstName` (string)
+- `lastName` (string)
+- `email` (string, unique)
+- `password` (string, hashed)
+- `role` (enum: 'admin' | 'customer')
+- `createdAt` (timestamp)
+
+### Product Entity
+
+- `id` (Primary Key)
+- `name` (string, unique)
+- `description` (string)
+- `type` (string)
+- `price` (decimal)
+- `inStock` (number)
+- `holdUnit` (number) - Items reserved in carts
+- `active` (enum: 'active' | 'inactive')
+- `createdAt` (timestamp)
+- `updatedAt` (timestamp)
+
+### CartItem Entity
+
+- `id` (Primary Key)
+- `user` (ManyToOne → User)
+- `product` (ManyToOne → Product)
+- `quantity` (number)
+- `createdAt` (timestamp)
+- `updatedAt` (timestamp)
+
+### Order Entity
+
+- `id` (Primary Key)
+- `user` (ManyToOne → User)
+- `items` (OneToMany → OrderItem)
+- `totalAmount` (decimal)
+- `status` (enum: 'pending' | 'completed' | 'cancelled')
+- `createdAt` (timestamp)
+- `updatedAt` (timestamp)
+
+### OrderItem Entity
+
+- `id` (Primary Key)
+- `order` (ManyToOne → Order)
+- `product` (ManyToOne → Product)
+- `cartItem` (ManyToOne → CartItem, nullable)
+- `quantity` (number)
+- `priceAtPurchase` (decimal)
+
+## 🛠️ Setup Instructions
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- MySQL (v8.0 or higher)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd ecommerce
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Configure environment variables**
+
+   Create a `.env` file in the root directory:
+
+   ```env
+   # Database Configuration
+   DB_HOST=localhost
+   DB_PORT=3306
+   DB_USER=root
+   DB_PASS=your_password
+   DB_NAME=ecommerce
+   TYPEORM_SYNC=true
+
+   # JWT Configuration
+   JWT_SECRET=your_jwt_secret_key
+   JWT_EXPIRES_IN=60s
+
+   # Server Configuration
+   PORT=3000
+   ```
+
+4. **Create MySQL database**
+
+   ```sql
+   CREATE DATABASE ecommerce;
+   ```
+
+5. **Run database migrations** (if TYPEORM_SYNC=false)
+
+   ```bash
+   # TypeORM will auto-sync schema if TYPEORM_SYNC=true
+   ```
+
+6. **Seed database (optional)**
+
+   ```bash
+   npm run seed
+   ```
+
+7. **Start the development server**
+   ```bash
+   npm run start:dev
+   ```
+
+The API will be available at `http://localhost:3000`
+
+## 📝 Available Scripts
+
+- `npm run build` - Build the project
+- `npm run start` - Start the production server
+- `npm run start:dev` - Start development server with watch mode
+- `npm run start:debug` - Start with debug mode
+- `npm run start:prod` - Start production server
+- `npm run seed` - Seed database with dummy data
+- `npm run lint` - Run ESLint
+- `npm run test` - Run unit tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:cov` - Generate test coverage
+- `npm run test:e2e` - Run end-to-end tests
+
+## 🔒 Security Features
+
+- **Helmet**: HTTP security headers
+- **Rate Limiting**: 10 requests per 60 seconds (configurable)
+- **JWT Authentication**: Secure token-based auth
+- **Role-Based Access Control**: Admin and Customer roles
+- **Password Hashing**: bcryptjs for password encryption
+- **Input Validation**: class-validator for request validation
+- **CORS**: Enabled for cross-origin requests
+- **Global Exception Filter**: Centralized error handling
+
+## 📊 Request/Response Examples
+
+### Register Customer
+
+```bash
+POST /auth/register
+Content-Type: application/json
+
+{
+  "email": "customer@example.com",
+  "firstName": "John",
+  "lastName": "Doe",
+  "password": "password123"
+}
+```
+
+### Login
+
+```bash
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "customer@example.com",
+  "password": "password123"
+}
+
+Response:
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Create Product (Admin)
+
+```bash
+POST /product/create
+Authorization: Bearer <admin_token>
+Content-Type: application/json
+
+{
+  "name": "Laptop",
+  "description": "High-performance laptop",
+  "type": "Electronics",
+  "price": 999.99,
+  "inStock": 50
+}
+```
+
+### Add to Cart
+
+```bash
+POST /cart/add
+Authorization: Bearer <customer_token>
+Content-Type: application/json
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+```
+
+### Create Order
+
+```bash
+POST /order/create
+Authorization: Bearer <customer_token>
+```
+
+## 🧪 Testing
+
+Run unit tests:
+
+```bash
+npm run test
+```
+
+Run e2e tests:
+
+```bash
+npm run test:e2e
+```
+
+Generate coverage report:
+
+```bash
+npm run test:cov
+```
+
+## 📚 Additional Resources
+
+- [NestJS Documentation](https://docs.nestjs.com)
+- [TypeORM Documentation](https://typeorm.io)
+- [Passport.js Documentation](http://www.passportjs.org)
+
+## 📄 License
+
+This project is licensed under the MIT License.
