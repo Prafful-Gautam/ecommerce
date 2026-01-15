@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -44,7 +45,16 @@ export class ProductController {
 
   @UseGuards(JwtAuthGuard)
   @Get('get')
-  getProducts(@Query('limit') limit: number, @Query('cursor') cursor: number) {
-    return this.productService.getAllActiveProducts({});
+  async getProducts(
+    @Query('limit') limit: number,
+    @Query('cursor') cursor: number,
+    @Req() req: any,
+  ) {
+    const { user } = req;
+    const data = await this.productService.getAllActiveProducts(user.role, {
+      limit,
+      cursor,
+    });
+    return data;
   }
 }
