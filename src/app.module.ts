@@ -15,6 +15,7 @@ import { CartModule } from './cart/cart.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CustomThrottlerGuard } from './common/guards/cutoms-throttle.guard';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { CustomThrottlerGuard } from './common/guards/cutoms-throttle.guard';
     AdminModule,
     ProductModule,
     CartModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [
