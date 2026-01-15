@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { Roles } from 'src/common/decorator/custom.decorator';
 import { UserRole } from 'src/user/dto/create-user.dto';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('product')
 export class ProductController {
@@ -43,6 +44,7 @@ export class ProductController {
     } else return 'invalid product id';
   }
 
+  @SkipThrottle()
   @UseGuards(JwtAuthGuard)
   @Get('get')
   async getProducts(

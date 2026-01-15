@@ -12,9 +12,21 @@ import { ValidationPipe } from './common/validation/validation.pipe';
 import { AdminModule } from './admin/admin.module';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { CustomThrottlerGuard } from './common/guards/cutoms-throttle.guard';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      throttlers: [
+        {
+          ttl: 60000,
+          limit: 10,
+        },
+      ],
+    }),
+
     ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env'] }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -30,6 +42,7 @@ import { CartModule } from './cart/cart.module';
         autoLoadEntities: true,
       }),
     }),
+
     AuthModule,
     UserModule,
     AdminModule,
@@ -46,6 +59,10 @@ import { CartModule } from './cart/cart.module';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: CustomThrottlerGuard,
     },
   ],
 })

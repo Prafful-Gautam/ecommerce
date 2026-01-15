@@ -5,6 +5,7 @@ import { CartService } from './cart.service';
 import { CartDTO, RemoveCartDTO } from './dto/cart.dto';
 import { RolesGuard } from 'src/common/guards/role.guard';
 import { UserRole } from 'src/user/dto/create-user.dto';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('cart')
 @UseGuards(RolesGuard)
@@ -22,9 +23,10 @@ export class CartController {
     return this.cartService.addToCart(userId, productId, quantity);
   }
 
+  @SkipThrottle()
   @Get('get')
   getCartItems(@CurrentUser('id') userId: number) {
-    // return this.cartService.getCart(userId);
+    return this.cartService.getCart(userId);
   }
 
   @Post('remove-item')
