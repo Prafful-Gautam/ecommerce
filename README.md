@@ -488,16 +488,12 @@ Run unit tests:
 npm run test
 ```
 
-Run e2e tests:
+Run unit tests:
 
 ```bash
-npm run test:e2e
-```
-
-Generate coverage report:
-
-```bash
-npm run test:cov
+npm run test:cart
+npm run test:order
+npm run test:all
 ```
 
 ## 📚 Additional Resources

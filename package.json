@@ -16,7 +16,8 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:cart": "jest cart.service.spec.ts",
-    "test:order": "jest order.service.spec.ts"
+    "test:order": "jest order.service.spec.ts",
+    "test:all": "npm run test:cart && npm run test:order"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
