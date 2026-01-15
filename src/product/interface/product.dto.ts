@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { IsEnum, IsNumber, IsOptional, IsString, Max } from 'class-validator';
 
 export enum Status {
@@ -35,6 +36,30 @@ export class ProductDTO {
   @IsNumber()
   inStock!: number;
 
+  @IsEnum(Status)
+  @IsOptional()
+  active?: Status;
+}
+
+export class UpdateProductDTO {
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsEnum(ProductType)
+  type?: ProductType;
+
+  @IsOptional()
+  @IsNumber()
+  @Max(999.99)
+  price!: string;
+
+  @Optional()
+  @IsNumber()
+  inStock!: number;
+
+  @IsOptional()
   @IsEnum(Status)
   @IsOptional()
   active?: Status;

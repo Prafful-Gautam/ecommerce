@@ -1,17 +1,48 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductService } from './product.service';
-import { ProductDTO } from './interface/product.dto';
+import { ProductDTO, UpdateProductDTO } from './interface/product.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guards/role.guard';
+import { Roles } from 'src/common/decorator/custom.decorator';
+import { UserRole } from 'src/user/dto/create-user.dto';
 
 @Controller('product')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
   @Post('create')
   creatProduct(@Body() create: ProductDTO) {
     const createdProduct = { ...create, price: create.price.toString() };
     return this.productService.addProduct(createdProduct);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @Put('update/:id')
+  async updateProduct(
+    @Param('id') id: number,
+    @Body() update: UpdateProductDTO,
+  ) {
+    const updatedProduct = { ...update };
+
+    const data = await this.productService.updateProduct(id, updatedProduct);
+    if (data.affected) {
+      return 'update success';
+    } else return 'invalid product id';
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('get')
   getProducts(@Query('limit') limit: number, @Query('cursor') cursor: number) {
     return this.productService.getAllActiveProducts({});
