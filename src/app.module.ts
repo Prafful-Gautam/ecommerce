@@ -11,6 +11,7 @@ import { UserModule } from './user/user.module';
 import { ValidationPipe } from './common/validation/validation.pipe';
 import { AdminModule } from './admin/admin.module';
 import { ProductModule } from './product/product.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProductModule } from './product/product.module';
     UserModule,
     AdminModule,
     ProductModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [

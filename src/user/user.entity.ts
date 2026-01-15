@@ -3,8 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from './dto/create-user.dto';
+import { CartItem } from 'src/cart/cart-item.entity';
 
 @Entity()
 export class User {
@@ -25,6 +27,9 @@ export class User {
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.user)
+  cartItems: CartItem[];
 
   @CreateDateColumn()
   createdAt: Date;

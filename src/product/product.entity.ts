@@ -3,8 +3,10 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Status } from './interface/product.dto';
+import { CartItem } from 'src/cart/cart-item.entity';
 
 @Entity()
 export class Product {
@@ -33,6 +35,9 @@ export class Product {
 
   @Column({ default: 0 })
   holdUnit: number;
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product)
+  cartItems: CartItem[];
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
   active: Status;
