@@ -11,7 +11,7 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -20,11 +20,19 @@ export class Product {
   @Column()
   type: string;
 
-  @Column()
-  inStock: Number;
+  @Column({
+    type: 'decimal',
+    precision: 5,
+    scale: 2,
+    default: 0,
+  })
+  price: string;
 
   @Column()
-  holdUnit: Number;
+  inStock: number;
+
+  @Column({ default: 0 })
+  holdUnit: number;
 
   @Column({ type: 'enum', enum: Status, default: Status.ACTIVE })
   active: Status;
